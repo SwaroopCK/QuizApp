@@ -1,32 +1,46 @@
+# the json module to work with json files 
+import json
 import tkinter
 from tkinter import *
 import random
 
-questions = [
-    "The series Friends is set in which city?",
-    "What pet did Ross own?",
-    "Monica briefly dates billionaire Pete Becker. Which country does he take her for their first date?",
-    "Rachel was popular in high school. Her prom date Chip ditched her for which girl at school?",
-    "Which cartoon character was on Phoebe’s thermos that Ursula threw under a bus?",
-    " What song is Phoebe best known for?",
-    "Which Friends character plays Dr. Drake Ramoray on the show Days Of Our Lives?",
-    " Who was Chandler’s TV magazine always addressed to?",
-    "Who sang the Friends theme?",
-    "What kind of uniform does Joey wear to Monica and Chandler’s wedding?",
-]
+#
+#questions = [
+#    "The series Friends is set in which city?",
+#    "What pet did Ross own?",
+#    "Monica briefly dates billionaire Pete Becker. Which country does he take her for their first date?",
+#    "Rachel was popular in high school. Her prom date Chip ditched her for which girl at school?",
+#    "Which cartoon character was on Phoebe’s thermos that Ursula threw under a bus?",
+#    "What song is Phoebe best known for?",
+#    "Which Friends character plays Dr. Drake Ramoray on the show Days Of Our Lives?",
+#    "Who was Chandler’s TV magazine always addressed to?",
+#    "Who sang the Friends theme?",
+#    "What kind of uniform does Joey wear to Monica and Chandler’s wedding?",
+#]
 
-answers_ch = [
-    ["1","2","3","4",],
-    ["1","2","3","4",],
-    ["1","2","3","4",],
-    ["1","2","3","4",],
-    ["Pebbles Flintstone","Yogi Bear","Judy Jetson","Bullwinkle",],
-    ["Smelly Cat","Smelly Dog","Smelly Rabbit","Smelly Worm",],
-    ["Ross Geller","Pete Becker","Eddie Menuek","Joey Tribbiani",],
-    ["Chanandler Bong","Chanandler Bang","Chanandler Bing","Chanandler Beng",],
-    ["The Banksys","The Rembrandts","The Constables","The Da Vinci Band",],
-    ["Chef","Soldier","Fire fighter","A baseball player",],
-]
+#answers_ch = [
+#    ["Los Angeles","New York City","Miami","Seattle",],
+#    ["A dog named Keith","A rabbit called Lancelot","A monkey named Marcel","A lizard named Alistair",],
+#    ["France","Italy","England","Greece",],
+#    ["Sally Roberts","Amy Welsh","Valerie Thompson","Emily Foster",],
+#    ["Pebbles Flintstone","Yogi Bear","Judy Jetson","Bullwinkle",],
+#    ["Smelly Cat","Smelly Dog","Smelly Rabbit","Smelly Worm",],
+#    ["Ross Geller","Pete Becker","Eddie Menuek","Joey Tribbiani",],
+#    ["Chanandler Bong","Chanandler Bang","Chanandler Bing","Chanandler Beng",],
+#    ["The Banksys","The Rembrandts","The Constables","The Da Vinci Band",],
+#    ["Chef","Soldier","Fire fighter","A baseball player",],
+#]
+
+
+# load questions and answer choices from json file instead of the file
+with open('./data.json', encoding="utf8") as f:
+    data = json.load(f)
+
+# convert the dictionary in lists of questions and answers_choice 
+questions = [v for v in data[0].values()]
+answers_choice = [v for v in data[1].values()]
+
+answers = [1,2,1,2,0,3,0,1,1] 
 
 user_answer = []
 
@@ -39,37 +53,91 @@ def gen():
             continue
         else:
             indexes.append(x)
-    #print(indexes)
+
+
+def showresult(score):
+    lblQuestion.destroy()
+    r1.destroy()
+    r2.destroy()
+    r3.destroy()
+    r4.destroy()
+    labelimage = Label(
+        root,
+        background = "#ffffff",
+        border = 0,
+    )
+    labelimage.pack(pady=(50,30))
+    labelresulttext = Label(
+        root,
+        font = ("Consolas",20),
+        background = "#ffffff",
+    )
+    labelresulttext.pack()
+    if score >= 20:
+        img = PhotoImage(file="great.png")
+        labelimage.configure(image=img)
+        labelimage.image = img
+        labelresulttext.configure(text="You Are Excellent !!")
+    elif (score >= 10 and score < 20):
+        img = PhotoImage(file="ok.png")
+        labelimage.configure(image=img)
+        labelimage.image = img
+        labelresulttext.configure(text="You Can Be Better !!")
+    else:
+        img = PhotoImage(file="bad.png")
+        labelimage.configure(image=img)
+        labelimage.image = img
+        labelresulttext.configure(text="You Should Work Hard !!")
+
+
+def calculate():
+    global indexes,user_answer,answers
+    x = 0
+    score = 0
+    for i in indexes:
+        if user_answer[x] == answers[i]:
+            score = score + 5
+        x += 1
+    print(score)
+    showresult(score)
+
 
 ques = 1
 def selected():
     global radiovar,user_answer
-    global lblq,r1,r2,r3,r4
+    global lblQuestion,r1,r2,r3,r4
     global ques
     x = radiovar.get()
-    #print(x)
     user_answer.append(x)
+    radiovar.set(-1)
     if ques < 5:
-        lblq.config(text = questions[indexes[ques]])
-        r1['text'] = answers_ch[indexes[ques]][0]
-        r2['text'] = answers_ch[indexes[ques]][1]
-        r3['text'] = answers_ch[indexes[ques]][2]
-        r4['text'] = answers_ch[indexes[ques]][3]
-        ques += 1 
+        lblQuestion.config(text= questions[indexes[ques]])
+        r1['text'] = answers_choice[indexes[ques]][0]
+        r2['text'] = answers_choice[indexes[ques]][1]
+        r3['text'] = answers_choice[indexes[ques]][2]
+        r4['text'] = answers_choice[indexes[ques]][3]
+        ques += 1
     else:
-        pass
+         #print(indexes)
+         #print(user_answer)
+         calculate()
+    
+
+
+
 
 def startquiz():
-    global lblq,r1,r2,r3,r4
-    lblq = Label(
+    global lblQuestion,r1,r2,r3,r4
+    lblQuestion = Label(
         root,
         text = questions[indexes[0]],
-        font = ("consolas",16),
+        font = ("Consolas", 16),
         width = 500,
         justify = "center",
         wraplength = 400,
+        background = "#ffffff",
     )
-    lblq.pack()
+    lblQuestion.pack(pady=(100,30))
 
     global radiovar
     radiovar = IntVar()
@@ -77,103 +145,112 @@ def startquiz():
 
     r1 = Radiobutton(
         root,
-        text = answers_ch[indexes[0]][0],
-        font = ("Times" , 12),
+        text = answers_choice[indexes[0]][0],
+        font = ("Times", 12),
         value = 0,
         variable = radiovar,
         command = selected,
+        background = "#ffffff",
     )
-    r1.pack(pady = (40,0))
+    r1.pack(pady=5)
 
     r2 = Radiobutton(
         root,
-        text = answers_ch[indexes[0]][1],
-        font = ("Times" , 12),
+        text = answers_choice[indexes[0]][1],
+        font = ("Times", 12),
         value = 1,
         variable = radiovar,
         command = selected,
+        background = "#ffffff",
     )
-    r2.pack(pady = (40,0))
+    r2.pack(pady=5)
 
     r3 = Radiobutton(
         root,
-        text = answers_ch[indexes[0]][2],
-        font = ("Times" , 12),
+        text = answers_choice[indexes[0]][2],
+        font = ("Times", 12),
         value = 2,
         variable = radiovar,
         command = selected,
+        background = "#ffffff",
     )
-    r3.pack(pady = (40,0))
+    r3.pack(pady=5)
 
     r4 = Radiobutton(
         root,
-        text = answers_ch[indexes[0]][3],
-        font = ("Times" , 12),
+        text = answers_choice[indexes[0]][3],
+        font = ("Times", 12),
         value = 3,
         variable = radiovar,
         command = selected,
+        background = "#ffffff",
     )
-    r4.pack(pady = (40,0))
+    r4.pack(pady=5)
 
 
-
-def startIsPressed():
+def startIspressed():
     labelimage.destroy()
-    labelText.destroy()
-    lblRules.destroy()
+    labeltext.destroy()
     lblInstruction.destroy()
-    btnstart.destroy()
+    lblRules.destroy()
+    btnStart.destroy()
     gen()
     startquiz()
 
+
+
 root = tkinter.Tk()
-root.title("Quiz App")
+root.title("Quizstar")
 root.geometry("700x600")
-root.config(background="white")
+root.config(background="#ffffff")
 root.resizable(0,0)
 
+
 img1 = PhotoImage(file="hat.png")
+
 labelimage = Label(
     root,
     image = img1,
-    background = "white"
+    background = "#ffffff",
 )
 labelimage.pack(pady=(40,0))
 
-labelText = Label(
+labeltext = Label(
     root,
-    text = "QuizApp",
-    font = ("comic sans MS" , 24 , "bold"),
-    background = "white"
+    text = "Quizstar",
+    font = ("Comic sans MS",24,"bold"),
+    background = "#ffffff",
 )
-labelText.pack(pady=(0,50))
+labeltext.pack(pady=(0,50))
 
-img2 = PhotoImage(file = "Frame.png")
-btnstart = Button(
+img2 = PhotoImage(file="Frame.png")
+
+btnStart = Button(
     root,
     image = img2,
     relief = FLAT,
-    border = 0.0,
-    command = startIsPressed
+    border = 0,
+    command = startIspressed,
 )
-btnstart.pack()
+btnStart.pack()
 
 lblInstruction = Label(
     root,
-    text = "Read The Rules \n Start The game Once you are Ready",
-    background = "white",
-    font = ("consolas",14),
-    justify = "center"
+    text = "Read The Rules And\nClick Start Once You Are ready",
+    background = "#ffffff",
+    font = ("Consolas",14),
+    justify = "center",
 )
-lblInstruction.pack()
+lblInstruction.pack(pady=(10,100))
 
 lblRules = Label(
     root,
-    text = "° This quiz contains 10 questions\n° You will 20 seconds to solve a question\n° Once you select a choice that will be final choice\n° Think Before you select",
-    width = 100, 
+    text = "This quiz contains 10 questions\nYou will get 20 seconds to solve a question\nOnce you select a radio button that will be a final choice\nhence think before you select",
+    width = 100,
     font = ("Times",14),
     background = "#000000",
     foreground = "#FACA2F",
 )
-lblRules.pack(pady = (110,0))
+lblRules.pack()
+
 root.mainloop()

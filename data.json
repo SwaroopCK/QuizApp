@@ -1,0 +1,65 @@
+[
+    {
+    "1":"The series Friends is set in which city?",
+    "2":"What pet did Ross own?",
+    "3":"Monica briefly dates billionaire Pete Becker. Which country does he take her for their first date?",
+    "4":"Rachel was popular in high school. Her prom date Chip ditched her for which girl at school?",
+    "5":"Which cartoon character was on Phoebe’s thermos that Ursula threw under a bus?",
+    "6":"What song is Phoebe best known for?",
+    "7":"Which Friends character plays Dr. Drake Ramoray on the show Days Of Our Lives?",
+    "8":"Who was Chandler’s TV magazine always addressed to?",
+    "9":"Who sang the Friends theme?",
+    "10":"What kind of uniform does Joey wear to Monica and Chandler’s wedding?"
+    },
+    {
+    "1":["Los Angeles",
+    "New York City",
+    "Miami",
+    "Seattle"
+    ],
+   "2":["A dog named Keith",
+    "A rabbit called Lancel",
+    "A monkey named Marcel",
+    "A lizard named Alistair"
+    ],
+    "3":["France",
+        "Italy",
+        "England",
+        "Greece"
+        ],
+    "4":["Saly Roberts",
+        "Amy Welsh",
+        "alerie Thompson",
+        "Emily Foster"
+        ],
+    "5":["Pebbles Flintstone",
+        "Yogi Bear",
+        "Judy Jetson",
+        "Bullwinkle"
+        ],
+    "6":["Smelly Cat",
+        "Smelly Dog",
+        "Smelly Rabbit",
+        "Smelly Worm"
+        ],
+    "7":["Ross Geller",
+        "Pete Becker",
+        "Eddie Menuek",
+        "Joey Tribbiani"
+        ],
+    "8":["Chanandler Bong",
+        "Chanandler Bang",
+        "Chanandler Bing",
+        "Chanandler Beng"
+        ],
+    "9":["The Banksys",
+        "The Rembrandts",
+        "The Constables",
+        "The Da Vinci Band"],
+    "10":["Chef",
+        "Soldier",
+        "Fire fighter",
+        "A baseball player"
+        ]
+    }
+]
