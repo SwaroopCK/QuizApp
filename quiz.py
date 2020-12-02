@@ -40,7 +40,7 @@ with open('./data.json', encoding="utf8") as f:
 questions = [v for v in data[0].values()]
 answers_choice = [v for v in data[1].values()]
 
-answers = [1,2,1,2,0,3,0,1,1] 
+answers = [1,2,1,1,2,0,3,0,1,1] 
 
 user_answer = []
 
