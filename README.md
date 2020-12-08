@@ -1,2 +1,2 @@
 # QuizApp
-Friends Series Quiz 
+Install The Quiz.exe file and Play the Game.
